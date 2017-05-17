@@ -2,6 +2,7 @@ package com.example.chanf.mycontactapp;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,12 +68,16 @@ public class MainActivity extends AppCompatActivity {
 
         StringBuffer buffer = new StringBuffer();
         //setup a loop with the Cursor (res) using moveToNext
-        //  append each COL to the buffer
-        //  display message using showMessage
+            //  append each COL to the buffer
+            //  display message using showMessage
         showMessage("Data", buffer.toString());
     }
 
     private void showMessage(String title, String message) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true); //cancel using back button
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }

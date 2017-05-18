@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     EditText editName;
     EditText editNumber;
     EditText editAddress;
+    EditText editSearch;
     Button btnAddData;
 
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         editName = (EditText)findViewById(R.id.editText_name);
         editNumber = (EditText)findViewById(R.id.editText_number);
         editAddress = (EditText)findViewById(R.id.editText_address);
+        editSearch = (EditText)findViewById(R.id.editText_search);
 
     }
 
@@ -68,9 +70,16 @@ public class MainActivity extends AppCompatActivity {
 
         StringBuffer buffer = new StringBuffer();
         //setup a loop with the Cursor (res) using moveToNext
+        while(res.moveToNext()){
+           for(int i = 0; i < res.getColumnCount(); i++)
+           {
+               buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
+           }
+           buffer.append("\n");
+        }
             //  append each COL to the buffer
             //  display message using showMessage
-        showMessage("Data", buffer.toString());
+        showMessage("Contacts", buffer.toString());
     }
 
     private void showMessage(String title, String message) {
@@ -79,5 +88,21 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    private void search(String name){
+        Cursor res = myDb.getAllData();
+        StringBuffer buffer = new StringBuffer();
+        while(res.moveToNext())
+        {
+            if(res.getString(1).equals(name))
+            {
+                for(int i = 0; i < res.getColumnCount(); i++)
+                {
+                    buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
+                }
+                buffer.append("\n");
+            }
+        }
     }
 }

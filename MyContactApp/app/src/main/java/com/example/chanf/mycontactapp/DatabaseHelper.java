@@ -22,12 +22,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 3);
+        super(context, DATABASE_NAME, null, 4);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID_INTEGER_PRIMARY_KEY_AUTOINCREMENT, NAME TEXT, NUMBER TEXT, ADDRESS TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, NUMBER TEXT, ADDRESS TEXT)");
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean insertData(String name, String number, String address){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues(3);
+        ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, name);
         contentValues.put(COL_3, number);
         contentValues.put(COL_4, address);

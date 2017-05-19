@@ -90,19 +90,24 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void search(String name){
+    public void search(View v){
         Cursor res = myDb.getAllData();
+        if (res.getCount() == 0){
+            showMessage("Error", "No data is found in the database");
+            //Output message using Log.d and Toast
+            return;
+        }
+
         StringBuffer buffer = new StringBuffer();
-        while(res.moveToNext())
-        {
-            if(res.getString(1).equals(name))
-            {
-                for(int i = 0; i < res.getColumnCount(); i++)
-                {
+        while(res.moveToNext()) {
+            if (res.getString(1).toUpperCase().equals(editSearch.getText().toString().toUpperCase())) {
+                for (int i = 0; i < res.getColumnCount(); i++) {
                     buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
                 }
-                buffer.append("\n");
+                showMessage(null, buffer.toString());
+                return;
             }
         }
+        showMessage(null, "Contact not found");
     }
 }

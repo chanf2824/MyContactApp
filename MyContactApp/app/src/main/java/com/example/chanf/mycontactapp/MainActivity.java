@@ -1,6 +1,7 @@
 package com.example.chanf.mycontactapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String SEARCH_NAME = "com.example.chanf.mycontactapp.SEARCH";
+    public static final String INFO = "com.example.chanf.mycontactapp.INFO";
     DatabaseHelper myDb;
     EditText editName;
     EditText editNumber;
@@ -92,19 +95,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void search(View v){
         Cursor res = myDb.getAllData();
+        Context context = getApplicationContext();
+
         if (res.getCount() == 0){
             showMessage("Error", "No data is found in the database");
             //Output message using Log.d and Toast
             return;
         }
-
         StringBuffer buffer = new StringBuffer();
         while(res.moveToNext()) {
             if (res.getString(1).toUpperCase().equals(editSearch.getText().toString().toUpperCase())) {
                 for (int i = 0; i < res.getColumnCount(); i++) {
-                    buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n");
+                    buffer.append(res.getColumnName(i) + ": " + res.getString(i) + "\n\n");
                 }
-                showMessage(null, buffer.toString());
+                Intent intent = new Intent(this, SearchActivity.class);
+                intent.putExtra(SEARCH_NAME, editSearch.getText().toString().toUpperCase());
+                intent.putExtra(INFO, buffer.toString());
+                startActivity(intent);
                 return;
             }
         }

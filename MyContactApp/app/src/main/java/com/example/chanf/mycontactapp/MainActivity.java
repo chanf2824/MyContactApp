@@ -40,11 +40,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addData(View v){
+        Context context = getApplicationContext();
+        CharSequence text;
+        if(editName.getText().toString().equals("") || editNumber.getText().toString().equals("")
+            || editAddress.getText().toString().equals("")) {
+            Log.d("MyContact", "Failure inserting data");
+            text = "Data couldn't be inserted";
+            //Insert Toast message here.....
+            Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
         boolean isInserted = myDb.insertData(editName.getText().toString(),
                 editNumber.getText().toString(),
                 editAddress.getText().toString());
-        Context context = getApplicationContext();
-        CharSequence text;
 
 
         if(isInserted == true){
